@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react';
+import winston from 'winston';
 import './App.css';
-import {SearchOptionValues,ContractOptionValues,countries} from './Constants/Constant'
+import { ContractOptionValues, countries, SearchOptionValues } from './Constants/Constant';
+
 
 function App() {
     const [data, setData] = useState({
@@ -10,6 +12,15 @@ function App() {
       term:"",
       country:"United States of America"
     });
+
+    const logger = winston.createLogger({
+        // ...
+        transports: [
+          // ...
+          new winston.transports.Console()
+        ]
+      });
+      logger.info('your awesome information log!');
     
     const [termData, setTermData]= useState()
     const [errorFlag, setErrorFlag]= useState(0)
@@ -20,7 +31,9 @@ function App() {
         if (validateForm()) {
             setErrorFlag(0)
             alert("Form has been submitted successfully.Please check console for output")
+           
             console.log(JSON.stringify(data))
+            logger.error('your eroor information log!');
         }
     }
 
